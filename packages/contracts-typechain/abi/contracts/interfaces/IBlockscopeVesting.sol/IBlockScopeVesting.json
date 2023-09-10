@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IBlockScopeVesting",
-  "sourceName": "contracts/interfaces/IBlockscopeVesting.sol",
+  "sourceName": "contracts/interfaces/IBlockScopeVesting.sol",
   "abi": [
     {
       "anonymous": false,

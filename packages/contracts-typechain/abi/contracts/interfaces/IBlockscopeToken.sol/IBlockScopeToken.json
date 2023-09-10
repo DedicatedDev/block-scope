@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IBlockScopeToken",
-  "sourceName": "contracts/interfaces/IBlockscopeToken.sol",
+  "sourceName": "contracts/interfaces/IBlockScopeToken.sol",
   "abi": [],
   "bytecode": "0x",
   "deployedBytecode": "0x",

@@ -26,6 +26,7 @@
     "hh:node": "cd packages/blockchain && npx hardhat node",
     "hh:build": "cd packages/blockchain && npx hardhat compile --force && cd .. && yarn typechain:build",
     "hh:test": "cd packages/blockchain && npx hardhat test",
+    "hh:coverage": "cd packages/blockchain && npx hardhat coverage",
     "hh:deploy:local": "cd packages/blockchain && npx hardhat run --network localhost scripts/deploy.ts && cd .. && yarn typechain:build",
     "hh:deploy:goerli": "cd packages/blockchain && npx hardhat run --network goerli scripts/deploy.ts && cd .. && yarn typechain:build",
     "sweep:token:erc20": "cd packages/app && yarn sweep Token ERC20",

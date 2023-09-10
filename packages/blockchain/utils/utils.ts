@@ -37,35 +37,38 @@ export const saveDeployedAddress = async (
 export const Utils = {
   prepareTest: async function () {
     //import users
-    const accounts = await ethers.getSigners();
-    const users = accounts.map((acc) => acc.address);
-
+    const [owner] = await ethers.getSigners();
     //deploy contracts
-    const scopeVestingFactory = await ethers.getContractFactory("ScopeVesting");
-    const scopeVesting = await scopeVestingFactory.deploy();
+
+    const scopeTokenFactory = await ethers.getContractFactory(
+      "BlockScopeToken"
+    );
+    const scopeToken = await scopeTokenFactory.deploy(
+      "BlockScope Token",
+      "Scope",
+      owner.address
+    );
+    await scopeToken.deployed();
+
+    const scopeVestingFactory = await ethers.getContractFactory(
+      "BlockScopeVesting"
+    );
+    const scopeVesting = await scopeVestingFactory.deploy(scopeToken.address);
     await scopeVesting.deployed();
 
-    const scopePaymentFactory = await ethers.getContractFactory("ScopePayment");
+    const scopePaymentFactory = await ethers.getContractFactory(
+      "BlockScopePayment"
+    );
     const scopePayment = await scopePaymentFactory.deploy();
     await scopePayment.deployed();
 
-    const scopeTokenFactory = await ethers.getContractFactory("ScopeToken");
-    const scopeToken = await scopeTokenFactory.deploy(
-      "BlockScope Token",
-      "Scope"
-    );
-    await scopeToken.deployed();
-    await scopeToken.mint(users, ERC20_MINT_AMOUNT);
+    await scopeToken
+      .connect(owner)
+      .approve(scopePayment.address, ERC20_MINT_AMOUNT);
+    await scopeToken
+      .connect(owner)
+      .approve(scopeVesting.address, ERC20_MINT_AMOUNT);
 
-    // approve sweep by sweeper.
-    accounts.forEach(async (acc) => {
-      await scopeToken
-        .connect(acc)
-        .approve(scopePayment.address, ERC20_MINT_AMOUNT);
-      await scopeToken
-        .connect(acc)
-        .approve(scopeVesting.address, ERC20_MINT_AMOUNT);
-    });
     return {
       scopeToken,
       scopeVesting,

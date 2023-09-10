@@ -65,6 +65,22 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
+      name: "BlockScopePayment",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockScopePayment__factory>;
+    getContractFactory(
+      name: "BlockScopeToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockScopeToken__factory>;
+    getContractFactory(
+      name: "BlockScopeVesting",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockScopeVesting__factory>;
+    getContractFactory(
+      name: "IBlockScopePayment",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBlockScopePayment__factory>;
+    getContractFactory(
       name: "IBlockScopeVesting",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IBlockScopeVesting__factory>;
@@ -77,21 +93,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OwnablePausableUpgradeable__factory>;
     getContractFactory(
-      name: "BlockscopePayment",
+      name: "BlockScopePaymentV2",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BlockscopePayment__factory>;
-    getContractFactory(
-      name: "BlockscopeToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BlockscopeToken__factory>;
-    getContractFactory(
-      name: "BlockscopeVesting",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BlockscopeVesting__factory>;
-    getContractFactory(
-      name: "BlockscopePaymentV2",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BlockscopePaymentV2__factory>;
+    ): Promise<Contracts.BlockScopePaymentV2__factory>;
 
     getContractAt(
       name: "AccessControlUpgradeable",
@@ -159,6 +163,26 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
+      name: "BlockScopePayment",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockScopePayment>;
+    getContractAt(
+      name: "BlockScopeToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockScopeToken>;
+    getContractAt(
+      name: "BlockScopeVesting",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockScopeVesting>;
+    getContractAt(
+      name: "IBlockScopePayment",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBlockScopePayment>;
+    getContractAt(
       name: "IBlockScopeVesting",
       address: string,
       signer?: ethers.Signer
@@ -174,25 +198,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OwnablePausableUpgradeable>;
     getContractAt(
-      name: "BlockscopePayment",
+      name: "BlockScopePaymentV2",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.BlockscopePayment>;
-    getContractAt(
-      name: "BlockscopeToken",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BlockscopeToken>;
-    getContractAt(
-      name: "BlockscopeVesting",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BlockscopeVesting>;
-    getContractAt(
-      name: "BlockscopePaymentV2",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BlockscopePaymentV2>;
+    ): Promise<Contracts.BlockScopePaymentV2>;
 
     // default types
     getContractFactory(
