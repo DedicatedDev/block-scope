@@ -1,5 +1,5 @@
 {
-  "name": "@xfuntoken/hardhat",
+  "name": "@blockscope/hardhat",
   "version": "0.0.0",
   "main": "index.js",
   "private": "true",

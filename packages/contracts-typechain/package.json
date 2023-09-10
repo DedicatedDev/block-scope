@@ -1,5 +1,5 @@
 {
-  "name": "@xfuntoken/contracts-typechain",
+  "name": "@blockscope/contracts-typechain",
   "version": "1.0.0",
   "main": "lib/index.js",
   "author": "Oleg S",

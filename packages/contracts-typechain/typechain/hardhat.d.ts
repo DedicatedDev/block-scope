@@ -13,6 +13,46 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "AccessControlUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AccessControlUpgradeable__factory>;
+    getContractFactory(
+      name: "IAccessControlUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAccessControlUpgradeable__factory>;
+    getContractFactory(
+      name: "IERC5267Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC5267Upgradeable__factory>;
+    getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
+      name: "PausableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PausableUpgradeable__factory>;
+    getContractFactory(
+      name: "ContextUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ContextUpgradeable__factory>;
+    getContractFactory(
+      name: "EIP712Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EIP712Upgradeable__factory>;
+    getContractFactory(
+      name: "ERC165Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC165Upgradeable__factory>;
+    getContractFactory(
+      name: "IERC165Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC165Upgradeable__factory>;
+    getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
@@ -25,14 +65,84 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
-      name: "MockErc20Token",
+      name: "IBlockScopeVesting",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MockErc20Token__factory>;
+    ): Promise<Contracts.IBlockScopeVesting__factory>;
     getContractFactory(
-      name: "Sweeper",
+      name: "IOwnablePausable",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Sweeper__factory>;
+    ): Promise<Contracts.IOwnablePausable__factory>;
+    getContractFactory(
+      name: "OwnablePausableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OwnablePausableUpgradeable__factory>;
+    getContractFactory(
+      name: "BlockscopePayment",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockscopePayment__factory>;
+    getContractFactory(
+      name: "BlockscopeToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockscopeToken__factory>;
+    getContractFactory(
+      name: "BlockscopeVesting",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockscopeVesting__factory>;
+    getContractFactory(
+      name: "BlockscopePaymentV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BlockscopePaymentV2__factory>;
 
+    getContractAt(
+      name: "AccessControlUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControlUpgradeable>;
+    getContractAt(
+      name: "IAccessControlUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControlUpgradeable>;
+    getContractAt(
+      name: "IERC5267Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC5267Upgradeable>;
+    getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Initializable>;
+    getContractAt(
+      name: "PausableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PausableUpgradeable>;
+    getContractAt(
+      name: "ContextUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ContextUpgradeable>;
+    getContractAt(
+      name: "EIP712Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EIP712Upgradeable>;
+    getContractAt(
+      name: "ERC165Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165Upgradeable>;
+    getContractAt(
+      name: "IERC165Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165Upgradeable>;
+    getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
     getContractAt(
       name: "ERC20",
       address: string,
@@ -49,15 +159,40 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
-      name: "MockErc20Token",
+      name: "IBlockScopeVesting",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.MockErc20Token>;
+    ): Promise<Contracts.IBlockScopeVesting>;
     getContractAt(
-      name: "Sweeper",
+      name: "IOwnablePausable",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Sweeper>;
+    ): Promise<Contracts.IOwnablePausable>;
+    getContractAt(
+      name: "OwnablePausableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OwnablePausableUpgradeable>;
+    getContractAt(
+      name: "BlockscopePayment",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockscopePayment>;
+    getContractAt(
+      name: "BlockscopeToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockscopeToken>;
+    getContractAt(
+      name: "BlockscopeVesting",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockscopeVesting>;
+    getContractAt(
+      name: "BlockscopePaymentV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BlockscopePaymentV2>;
 
     // default types
     getContractFactory(

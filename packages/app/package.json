@@ -1,5 +1,5 @@
 {
-  "name": "@xfuntoken/sweeper",
+  "name": "@blockscope/tokemanager",
   "version": "1.0.0",
   "description": "xfuntoken.io exercise project",
   "main": "index.ts",

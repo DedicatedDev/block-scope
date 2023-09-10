@@ -39,35 +39,37 @@ export const Utils = {
     //import users
     const accounts = await ethers.getSigners();
     const users = accounts.map((acc) => acc.address);
+
     //deploy contracts
-    const sweeperFactory = await ethers.getContractFactory("Sweeper");
-    const sweeper = await sweeperFactory.deploy();
-    await sweeper.deployed();
+    const scopeVestingFactory = await ethers.getContractFactory("ScopeVesting");
+    const scopeVesting = await scopeVestingFactory.deploy();
+    await scopeVesting.deployed();
 
-    const tokens: string[] = [];
-    for (let index = 0; index < 10; index++) {
-      const tokenName = generateRandomString(3);
-      const mockERC20Factory = await ethers.getContractFactory(
-        "MockErc20Token"
-      );
-      const mockERC20Token = await mockERC20Factory.deploy(
-        tokenName,
-        tokenName
-      );
-      await mockERC20Token.deployed();
-      tokens.push(mockERC20Token.address);
-      await mockERC20Token.mint(users, ERC20_MINT_AMOUNT);
+    const scopePaymentFactory = await ethers.getContractFactory("ScopePayment");
+    const scopePayment = await scopePaymentFactory.deploy();
+    await scopePayment.deployed();
 
-      // approve sweep by sweeper.
-      accounts.forEach(async (acc) => {
-        await mockERC20Token
-          .connect(acc)
-          .approve(sweeper.address, ERC20_MINT_AMOUNT);
-      });
-    }
+    const scopeTokenFactory = await ethers.getContractFactory("ScopeToken");
+    const scopeToken = await scopeTokenFactory.deploy(
+      "BlockScope Token",
+      "Scope"
+    );
+    await scopeToken.deployed();
+    await scopeToken.mint(users, ERC20_MINT_AMOUNT);
+
+    // approve sweep by sweeper.
+    accounts.forEach(async (acc) => {
+      await scopeToken
+        .connect(acc)
+        .approve(scopePayment.address, ERC20_MINT_AMOUNT);
+      await scopeToken
+        .connect(acc)
+        .approve(scopeVesting.address, ERC20_MINT_AMOUNT);
+    });
     return {
-      tokens,
-      sweeper,
+      scopeToken,
+      scopeVesting,
+      scopePayment,
     };
   },
 };
