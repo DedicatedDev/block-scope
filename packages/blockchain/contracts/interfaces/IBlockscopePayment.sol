@@ -7,6 +7,19 @@ interface IBlockScopePayment {
         uint256 price;
     }
 
+    struct Payment {
+        address payer;
+        address token;
+        uint256 tierIndex;
+        uint256 nonce;
+    }
+
+    struct Subscribe {
+        address payer;
+        uint256 tierIndex;
+        uint256 startAt;
+        uint256 expireAt;
+    }
     // events
     event PaymentReceived(
         address indexed payer,

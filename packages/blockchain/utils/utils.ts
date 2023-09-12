@@ -6,8 +6,14 @@ import {
   readFileSync,
 } from "fs";
 
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 export const ERC20_MINT_AMOUNT = 100000000;
+
+import {
+  BlockScopePayment,
+  BlockScopeToken,
+  BlockScopeVesting,
+} from "../../contracts-typechain/typechain/contracts";
 
 export const saveDeployedAddress = async (
   sweeper: string,
@@ -37,7 +43,7 @@ export const saveDeployedAddress = async (
 export const Utils = {
   prepareTest: async function () {
     //import users
-    const [owner] = await ethers.getSigners();
+    const [owner, admin, daoTreasury, user] = await ethers.getSigners();
     //deploy contracts
 
     const scopeTokenFactory = await ethers.getContractFactory(
@@ -46,7 +52,7 @@ export const Utils = {
     const scopeToken = await scopeTokenFactory.deploy(
       "BlockScope Token",
       "Scope",
-      owner.address
+      admin.address
     );
     await scopeToken.deployed();
 
@@ -59,8 +65,19 @@ export const Utils = {
     const scopePaymentFactory = await ethers.getContractFactory(
       "BlockScopePayment"
     );
-    const scopePayment = await scopePaymentFactory.deploy();
-    await scopePayment.deployed();
+
+    const tiers = [
+      { name: "free", price: 10 },
+      { name: "tier1", price: 20 },
+      { name: "tier2", price: 30 },
+    ];
+    const scopePayment = await upgrades.deployProxy(
+      scopePaymentFactory,
+      [admin.address, daoTreasury.address, tiers],
+      {
+        kind: "uups",
+      }
+    );
 
     await scopeToken
       .connect(owner)
@@ -70,9 +87,12 @@ export const Utils = {
       .approve(scopeVesting.address, ERC20_MINT_AMOUNT);
 
     return {
-      scopeToken,
-      scopeVesting,
-      scopePayment,
+      scopeToken: scopeToken as BlockScopeToken,
+      scopeVesting: scopeVesting as BlockScopeVesting,
+      scopePayment: scopePayment as BlockScopePayment,
+      admin,
+      daoTreasury,
+      user,
     };
   },
 };

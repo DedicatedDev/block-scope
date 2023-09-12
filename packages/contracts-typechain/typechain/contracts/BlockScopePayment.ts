@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -51,6 +52,7 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     "daoTreasury()": FunctionFragment;
     "eip712Domain()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
+    "getTiers()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "initialize(address,address,(string,uint256)[])": FunctionFragment;
@@ -61,6 +63,7 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
     "payWithSignature(uint256,uint256,bytes)": FunctionFragment;
+    "proxiableUUID()": FunctionFragment;
     "removeAdmin(address)": FunctionFragment;
     "removePauser(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
@@ -71,6 +74,8 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
     "tiers(uint256)": FunctionFragment;
     "unpause()": FunctionFragment;
+    "upgradeTo(address)": FunctionFragment;
+    "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
 
   getFunction(
@@ -85,6 +90,7 @@ export interface BlockScopePaymentInterface extends utils.Interface {
       | "daoTreasury"
       | "eip712Domain"
       | "getRoleAdmin"
+      | "getTiers"
       | "grantRole"
       | "hasRole"
       | "initialize"
@@ -95,6 +101,7 @@ export interface BlockScopePaymentInterface extends utils.Interface {
       | "pause"
       | "paused"
       | "payWithSignature"
+      | "proxiableUUID"
       | "removeAdmin"
       | "removePauser"
       | "renounceRole"
@@ -105,6 +112,8 @@ export interface BlockScopePaymentInterface extends utils.Interface {
       | "supportsInterface"
       | "tiers"
       | "unpause"
+      | "upgradeTo"
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -147,6 +156,7 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
   ): string;
+  encodeFunctionData(functionFragment: "getTiers", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "grantRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
@@ -190,6 +200,10 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "proxiableUUID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "removeAdmin",
     values: [PromiseOrValue<string>]
   ): string;
@@ -226,6 +240,14 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "upgradeTo",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToAndCall",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -261,6 +283,7 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getTiers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -275,6 +298,10 @@ export interface BlockScopePaymentInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "payWithSignature",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -308,8 +335,15 @@ export interface BlockScopePaymentInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "tiers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
+    data: BytesLike
+  ): Result;
 
   events: {
+    "AdminChanged(address,address)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
     "EIP712DomainChanged()": EventFragment;
     "Initialized(uint8)": EventFragment;
     "Paused(address)": EventFragment;
@@ -318,8 +352,11 @@ export interface BlockScopePaymentInterface extends utils.Interface {
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
     "Unpaused(address)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EIP712DomainChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
@@ -328,7 +365,29 @@ export interface BlockScopePaymentInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
+
+export interface AdminChangedEventObject {
+  previousAdmin: string;
+  newAdmin: string;
+}
+export type AdminChangedEvent = TypedEvent<
+  [string, string],
+  AdminChangedEventObject
+>;
+
+export type AdminChangedEventFilter = TypedEventFilter<AdminChangedEvent>;
+
+export interface BeaconUpgradedEventObject {
+  beacon: string;
+}
+export type BeaconUpgradedEvent = TypedEvent<
+  [string],
+  BeaconUpgradedEventObject
+>;
+
+export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
 
 export interface EIP712DomainChangedEventObject {}
 export type EIP712DomainChangedEvent = TypedEvent<
@@ -410,6 +469,13 @@ export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>;
 
 export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
+export interface UpgradedEventObject {
+  implementation: string;
+}
+export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
+
+export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
+
 export interface BlockScopePayment extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -478,6 +544,10 @@ export interface BlockScopePayment extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getTiers(
+      overrides?: CallOverrides
+    ): Promise<[IBlockScopePayment.TierStructOutput[]]>;
+
     grantRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -526,6 +596,8 @@ export interface BlockScopePayment extends BaseContract {
       signature: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     removeAdmin(
       _account: PromiseOrValue<string>,
@@ -578,6 +650,17 @@ export interface BlockScopePayment extends BaseContract {
     unpause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -620,6 +703,10 @@ export interface BlockScopePayment extends BaseContract {
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getTiers(
+    overrides?: CallOverrides
+  ): Promise<IBlockScopePayment.TierStructOutput[]>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -669,6 +756,8 @@ export interface BlockScopePayment extends BaseContract {
     signature: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   removeAdmin(
     _account: PromiseOrValue<string>,
@@ -722,6 +811,17 @@ export interface BlockScopePayment extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  upgradeTo(
+    newImplementation: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  upgradeToAndCall(
+    newImplementation: PromiseOrValue<string>,
+    data: PromiseOrValue<BytesLike>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -763,6 +863,10 @@ export interface BlockScopePayment extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getTiers(
+      overrides?: CallOverrides
+    ): Promise<IBlockScopePayment.TierStructOutput[]>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -810,6 +914,8 @@ export interface BlockScopePayment extends BaseContract {
       signature: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     removeAdmin(
       _account: PromiseOrValue<string>,
@@ -860,9 +966,36 @@ export interface BlockScopePayment extends BaseContract {
     ): Promise<[string, BigNumber] & { name: string; price: BigNumber }>;
 
     unpause(overrides?: CallOverrides): Promise<void>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
+    "AdminChanged(address,address)"(
+      previousAdmin?: null,
+      newAdmin?: null
+    ): AdminChangedEventFilter;
+    AdminChanged(
+      previousAdmin?: null,
+      newAdmin?: null
+    ): AdminChangedEventFilter;
+
+    "BeaconUpgraded(address)"(
+      beacon?: PromiseOrValue<string> | null
+    ): BeaconUpgradedEventFilter;
+    BeaconUpgraded(
+      beacon?: PromiseOrValue<string> | null
+    ): BeaconUpgradedEventFilter;
+
     "EIP712DomainChanged()"(): EIP712DomainChangedEventFilter;
     EIP712DomainChanged(): EIP712DomainChangedEventFilter;
 
@@ -920,6 +1053,13 @@ export interface BlockScopePayment extends BaseContract {
 
     "Unpaused(address)"(account?: null): UnpausedEventFilter;
     Unpaused(account?: null): UnpausedEventFilter;
+
+    "Upgraded(address)"(
+      implementation?: PromiseOrValue<string> | null
+    ): UpgradedEventFilter;
+    Upgraded(
+      implementation?: PromiseOrValue<string> | null
+    ): UpgradedEventFilter;
   };
 
   estimateGas: {
@@ -951,6 +1091,8 @@ export interface BlockScopePayment extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getTiers(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1001,6 +1143,8 @@ export interface BlockScopePayment extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
+
     removeAdmin(
       _account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1052,6 +1196,17 @@ export interface BlockScopePayment extends BaseContract {
     unpause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1087,6 +1242,8 @@ export interface BlockScopePayment extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getTiers(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -1137,6 +1294,8 @@ export interface BlockScopePayment extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     removeAdmin(
       _account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1187,6 +1346,17 @@ export interface BlockScopePayment extends BaseContract {
 
     unpause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
